@@ -1,0 +1,31 @@
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  gap: 12px;
+}
+
+.section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.section-title ion-icon {
+  color: #ef4444;
+  font-size: 22px;
+}
+
+ion-content {
+  --padding-bottom: 24px;
+}
+
+@media (max-width: 640px) {
+  .section-title {
+    font-size: 18px;
+  }
+}

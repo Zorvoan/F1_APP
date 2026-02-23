@@ -1,0 +1,60 @@
+<ion-content [fullscreen]="true">
+  <div class="section-header">
+    <div class="section-title">
+      <ion-icon name="trophy"></ion-icon>
+      <span>{{ t.title(championshipYear) }}</span>
+    </div>
+    <div class="section-meta">
+      <ion-item lines="none">
+        <ion-label>{{ t.yearLabel }}</ion-label>
+        <ion-select
+          [value]="championshipYear"
+          (ionChange)="onYearChange($event.detail.value)"
+          interface="popover"
+        >
+          <ion-select-option *ngFor="let year of yearOptions" [value]="year">
+            {{ year }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <span *ngIf="lastUpdated" class="last-updated">
+        {{ t.lastUpdated }}: {{ lastUpdated | date:'shortTime' }}
+      </span>
+    </div>
+  </div>
+
+  <ion-list *ngIf="loading && teams.length === 0">
+    <ion-item>
+      <ion-label>{{ t.loading }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-card *ngIf="error">
+    <ion-card-content>
+      <ion-text color="danger">{{ t.error }}: {{ error }}</ion-text>
+      <div style="margin-top: 12px;">
+        <ion-button color="danger" (click)="fetchData()">{{ t.retry }}</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="!loading && !error">
+    <ion-card *ngFor="let team of teams" class="card-hover">
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-badge slot="start" color="medium">{{ team.position_current }}</ion-badge>
+          <ion-icon slot="start" name="car-sport" [style.color]="team.team_colour ? '#' + team.team_colour : undefined"></ion-icon>
+          <ion-label>
+            <h2>{{ team.team_name }}</h2>
+          </ion-label>
+          <ion-note slot="end">
+            <div>{{ team.points_current }} {{ t.points }}</div>
+            <div [class]="getChangeClass(team.position_current, team.position_start)">
+              {{ t.change }}: {{ getChangeValue(team.position_current, team.position_start) }}
+            </div>
+          </ion-note>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

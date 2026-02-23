@@ -1,0 +1,64 @@
+<ion-content [fullscreen]="true">
+  <div class="section-header">
+    <div class="section-title">
+      <ion-icon name="trophy"></ion-icon>
+      <span>{{ t.title(championshipYear) }}</span>
+    </div>
+    <div class="section-meta">
+      <ion-item lines="none">
+        <ion-label>{{ t.yearLabel }}</ion-label>
+        <ion-select
+          [value]="championshipYear"
+          (ionChange)="onYearChange($event.detail.value)"
+          interface="popover"
+        >
+          <ion-select-option *ngFor="let year of yearOptions" [value]="year">
+            {{ year }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <span *ngIf="lastUpdated" class="last-updated">
+        {{ t.lastUpdated }}: {{ lastUpdated | date:'shortTime' }}
+      </span>
+    </div>
+  </div>
+
+  <ion-list *ngIf="loading && drivers.length === 0">
+    <ion-item>
+      <ion-label>{{ t.loading }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-card *ngIf="error">
+    <ion-card-content>
+      <ion-text color="danger">{{ t.error }}: {{ error }}</ion-text>
+      <div style="margin-top: 12px;">
+        <ion-button color="danger" (click)="fetchData()">{{ t.retry }}</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="!loading && !error">
+    <ion-card *ngFor="let driver of drivers" class="card-hover">
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-badge slot="start" color="medium">{{ driver.position_current }}</ion-badge>
+          <ion-avatar slot="start">
+            <img *ngIf="driver.headshot_url" [src]="driver.headshot_url" [alt]="driver.full_name" />
+            <ion-icon *ngIf="!driver.headshot_url" name="person-circle"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ driver.full_name || (t.unknownDriver + ' #' + driver.driver_number) }}</h2>
+            <p *ngIf="driver.team_name">{{ driver.team_name }}</p>
+          </ion-label>
+          <ion-note slot="end">
+            <div>{{ driver.points_current }} {{ t.points }}</div>
+            <div [class]="getChangeClass(driver.position_current, driver.position_start)">
+              {{ t.change }}: {{ getChangeValue(driver.position_current, driver.position_start) }}
+            </div>
+          </ion-note>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

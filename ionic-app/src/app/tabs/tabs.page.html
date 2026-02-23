@@ -1,0 +1,57 @@
+<ion-header class="app-header" [translucent]="true">
+  <ion-toolbar>
+    <div class="header-content">
+      <div class="header-left">
+        <div class="header-icon">
+          <ion-icon name="flag" aria-hidden="true"></ion-icon>
+          <span class="live-dot"></span>
+        </div>
+        <div class="header-text">
+          <div class="header-title">F1 Tracker</div>
+          <div class="header-subtitle">Powered by OpenF1 API</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="live-indicator-dot"></span>
+        <span class="live-label">Live</span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-tabs>
+  <ion-tab-bar slot="top" class="f1-tabs">
+    <ion-tab-button tab="tab1" href="/tabs/tab1">
+      <ion-icon aria-hidden="true" name="trophy"></ion-icon>
+      <ion-label>Mistrovstvi jezdcu</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab2" href="/tabs/tab2">
+      <ion-icon aria-hidden="true" name="people"></ion-icon>
+      <ion-label>Mistrovstvi tymu</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab3" href="/tabs/tab3">
+      <ion-icon aria-hidden="true" name="speedometer"></ion-icon>
+      <ion-label>Telemetrie</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+
+<ion-footer class="app-footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <span>Made with</span>
+      <ion-icon name="heart"></ion-icon>
+      <span>for F1 fans</span>
+    </div>
+    <div class="footer-center">
+      <span>Data provided by</span>
+      <a href="https://openf1.org" target="_blank" rel="noopener noreferrer">OpenF1 API</a>
+    </div>
+    <a class="footer-right" href="https://github.com" target="_blank" rel="noopener noreferrer">
+      <ion-icon name="logo-github"></ion-icon>
+      <span>GitHub</span>
+    </a>
+  </div>
+</ion-footer>
