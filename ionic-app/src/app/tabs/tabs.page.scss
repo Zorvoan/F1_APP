@@ -1,7 +1,7 @@
 // ...existing code...
 
 .app-header ion-toolbar {
-  --background: rgba(0, 0, 0, 0.75);
+  --background: #000000;
   --color: #f8fafc;
   --border-color: #1f2937;
   backdrop-filter: blur(10px);
@@ -72,11 +72,14 @@
 }
 
 .f1-tabs {
-  margin: 12px 16px 0 16px;
+  margin: 0 16px 0 16px;
   border-radius: 12px;
   overflow: hidden;
-  --background: #1f2937;
+  --background: #0f1115;
   --border: #1f2937;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .f1-tabs ion-tab-button {
@@ -89,8 +92,12 @@
   font-size: 16px;
 }
 
+ion-tabs {
+  margin-top: 56px;
+}
+
 .app-footer {
-  background: rgba(15, 23, 42, 0.9);
+  background: #000000;
   border-top: 1px solid #1f2937;
 }
 
@@ -140,8 +147,12 @@
     display: none;
   }
 
+  ion-tabs {
+    margin-top: 56px;
+  }
+
   .f1-tabs {
-    margin: 8px 12px 0 12px;
+    margin: 0 12px 0 12px;
   }
 
   .footer-content {
