@@ -105,8 +105,9 @@ ion-tabs {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
-  font-size: 12px;
+  padding: 16px 20px;
+  font-size: 13px;
+  min-height: 64px;
   color: rgba(148, 163, 184, 0.9);
   flex-wrap: wrap;
   gap: 8px;
