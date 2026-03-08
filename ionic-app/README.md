@@ -1,6 +1,4 @@
-# ionic-app
-
-Minimalni Ionic Angular verze F1 Trackeru.
+# F1 Tracker
 
 ## Spusteni
 
@@ -12,5 +10,5 @@ ionic serve
 
 ## Poznamky
 
-- Data se nactou z OpenF1 API bez API klice.
+- Data se nactou z OpenF1 API
 - Roky pro sampionaty: 2025 az 2023.
