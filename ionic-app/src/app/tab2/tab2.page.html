@@ -48,8 +48,8 @@
             <h2>{{ team.team_name }}</h2>
           </ion-label>
           <ion-note slot="end">
-            <div>{{ team.points_current }} {{ t.points }}</div>
-            <div [class]="getChangeClass(team.position_current, team.position_start)">
+            <div class="points-value">{{ team.points_current }} {{ t.points }}</div>
+            <div class="position-change" [class]="getChangeClass(team.position_current, team.position_start)">
               {{ t.change }}: {{ getChangeValue(team.position_current, team.position_start) }}
             </div>
           </ion-note>

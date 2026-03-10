@@ -42,7 +42,7 @@
     <ion-card *ngFor="let driver of drivers" class="card-hover">
       <ion-card-content>
         <ion-item lines="none">
-          <ion-badge slot="start" color="medium">{{ driver.position_current }}</ion-badge>
+          <ion-badge slot="start" color="medium">{{ driver.display_position }}</ion-badge>
           <ion-avatar slot="start">
             <img *ngIf="driver.headshot_url" [src]="driver.headshot_url" [alt]="driver.full_name" />
             <ion-icon *ngIf="!driver.headshot_url" name="person-circle"></ion-icon>
@@ -52,8 +52,8 @@
             <p *ngIf="driver.team_name">{{ driver.team_name }}</p>
           </ion-label>
           <ion-note slot="end">
-            <div>{{ driver.points_current }} {{ t.points }}</div>
-            <div [class]="getChangeClass(driver.position_current, driver.position_start)">
+            <div class="points-value">{{ driver.points_current }} {{ t.points }}</div>
+            <div class="position-change" [class]="getChangeClass(driver.position_current, driver.position_start)">
               {{ t.change }}: {{ getChangeValue(driver.position_current, driver.position_start) }}
             </div>
           </ion-note>

@@ -3,6 +3,7 @@ import { OpenF1Service } from '../services/openf1.service';
 import type { ChampionshipDriver, Driver } from '../models/f1';
 
 type DriverWithInfo = ChampionshipDriver & Partial<Driver>;
+type DriverWithDisplayPosition = DriverWithInfo & { display_position: number };
 
 @Component({
   selector: 'app-tab1',
@@ -12,7 +13,7 @@ type DriverWithInfo = ChampionshipDriver & Partial<Driver>;
 })
 export class Tab1Page implements OnInit, OnDestroy {
   readonly language: 'cs' | 'en' = 'cs';
-  drivers: DriverWithInfo[] = [];
+  drivers: DriverWithDisplayPosition[] = [];
   loading = true;
   error: string | null = null;
   lastUpdated: Date | null = null;
@@ -102,7 +103,20 @@ export class Tab1Page implements OnInit, OnDestroy {
         throw new Error(`No championship standings available for ${year}`);
       }
 
-      this.drivers = data;
+      const sorted = data.slice().sort((a, b) => {
+        if (b.points_current !== a.points_current) {
+          return b.points_current - a.points_current;
+        }
+        if (a.position_current !== b.position_current) {
+          return a.position_current - b.position_current;
+        }
+        return a.driver_number - b.driver_number;
+      });
+
+      this.drivers = sorted.map((driver, index) => ({
+        ...driver,
+        display_position: index + 1
+      }));
       this.lastUpdated = new Date();
     } catch (err) {
       this.error = err instanceof Error ? err.message : 'Unknown error';
