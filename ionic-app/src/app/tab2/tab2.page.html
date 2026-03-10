@@ -43,7 +43,18 @@
       <ion-card-content>
         <ion-item lines="none">
           <ion-badge slot="start" color="medium">{{ team.position_current }}</ion-badge>
-          <ion-icon slot="start" name="car-sport" [style.color]="team.team_colour ? '#' + team.team_colour : undefined"></ion-icon>
+          <ng-container *ngIf="getTeamLogo(team.team_name) as logo; else fallbackIcon">
+            <ion-avatar slot="start" class="team-logo">
+              <img [src]="logo" [alt]="team.team_name" />
+            </ion-avatar>
+          </ng-container>
+          <ng-template #fallbackIcon>
+            <ion-icon
+              slot="start"
+              name="car-sport"
+              [style.color]="team.team_colour ? '#' + team.team_colour : undefined"
+            ></ion-icon>
+          </ng-template>
           <ion-label>
             <h2>{{ team.team_name }}</h2>
           </ion-label>

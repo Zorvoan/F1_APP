@@ -49,6 +49,19 @@ export class Tab2Page implements OnInit, OnDestroy {
     }
   };
 
+  private readonly teamLogoMap: Record<string, string> = {
+    alpine: 'assets/teams/alpine-logo.png',
+    astonmartin: 'assets/teams/aston-martin-logo.png',
+    ferrari: 'assets/teams/ferrari-logo.png',
+    haas: 'assets/teams/hass-logo.png',
+    kicksauber: 'assets/teams/kicksauber-logo.png',
+    mclaren: 'assets/teams/mclaren-logo.png',
+    mercedes: 'assets/teams/mercedes-logo.png',
+    racingbulls: 'assets/teams/racingbulls-logo.png',
+    redbull: 'assets/teams/redbull-logo.png',
+    williams: 'assets/teams/williams-logo.png'
+  };
+
   constructor(private readonly openF1: OpenF1Service) {}
 
   ngOnInit() {
@@ -64,6 +77,30 @@ export class Tab2Page implements OnInit, OnDestroy {
 
   get t() {
     return this.translations[this.language];
+  }
+
+  getTeamLogo(teamName?: string) {
+    if (!teamName) return null;
+    const normalized = teamName
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+
+    if (normalized.includes('redbull')) return this.teamLogoMap['redbull'];
+    if (normalized.includes('ferrari')) return this.teamLogoMap['ferrari'];
+    if (normalized.includes('mercedes')) return this.teamLogoMap['mercedes'];
+    if (normalized.includes('mclaren')) return this.teamLogoMap['mclaren'];
+    if (normalized.includes('astonmartin')) return this.teamLogoMap['astonmartin'];
+    if (normalized.includes('alpine')) return this.teamLogoMap['alpine'];
+    if (normalized.includes('williams')) return this.teamLogoMap['williams'];
+    if (normalized.includes('haas')) return this.teamLogoMap['haas'];
+    if (normalized.includes('kicksauber') || normalized.includes('sauber') || normalized.includes('alfaromeo')) {
+      return this.teamLogoMap['kicksauber'];
+    }
+    if (normalized.includes('racingbulls') || normalized.includes('alphatauri') || normalized === 'rb') {
+      return this.teamLogoMap['racingbulls'];
+    }
+
+    return null;
   }
 
   async onYearChange(value: number) {
