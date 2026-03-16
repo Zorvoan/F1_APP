@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OpenF1Service } from '../services/openf1.service';
 import type { ChampionshipTeam } from '../models/f1';
 
@@ -10,7 +10,7 @@ type TeamWithColor = ChampionshipTeam & { team_colour?: string };
   styleUrls: ['tab2.page.scss'],
   standalone: false,
 })
-export class Tab2Page implements OnInit, OnDestroy {
+export class Tab2Page implements OnInit {
   readonly language: 'cs' | 'en' = 'cs';
   teams: TeamWithColor[] = [];
   loading = true;
@@ -21,8 +21,6 @@ export class Tab2Page implements OnInit, OnDestroy {
   readonly minYear = 2023;
   readonly maxYear = 2025;
   readonly yearOptions = Array.from({ length: this.maxYear - this.minYear + 1 }, (_, index) => this.maxYear - index);
-
-  private refreshIntervalId: ReturnType<typeof setInterval> | null = null;
 
   private readonly translations = {
     cs: {
@@ -66,13 +64,6 @@ export class Tab2Page implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetchData();
-    this.refreshIntervalId = setInterval(() => this.fetchData(), 60000);
-  }
-
-  ngOnDestroy() {
-    if (this.refreshIntervalId) {
-      clearInterval(this.refreshIntervalId);
-    }
   }
 
   get t() {
@@ -146,17 +137,24 @@ export class Tab2Page implements OnInit, OnDestroy {
     }
   }
 
-  getChangeValue(current: number, start: number) {
+  getChangeLabel(current: number, start: number) {
     const diff = start - current;
     if (diff > 0) return `+${diff}`;
     if (diff < 0) return `${diff}`;
     return '-';
   }
 
+  getChangeIcon(current: number, start: number) {
+    const diff = start - current;
+    if (diff > 0) return 'trending-up';
+    if (diff < 0) return 'trending-down';
+    return 'remove';
+  }
+
   getChangeClass(current: number, start: number) {
     const diff = start - current;
-    if (diff > 0) return 'ion-text-success';
-    if (diff < 0) return 'ion-text-danger';
-    return 'ion-text-medium';
+    if (diff > 0) return 'change-up';
+    if (diff < 0) return 'change-down';
+    return 'change-neutral';
   }
 }

@@ -43,26 +43,23 @@
       <ion-card-content>
         <ion-item lines="none">
           <ion-badge slot="start" color="medium">{{ team.position_current }}</ion-badge>
-          <ng-container *ngIf="getTeamLogo(team.team_name) as logo; else fallbackIcon">
+          <ng-container *ngIf="getTeamLogo(team.team_name) as logo;">
             <ion-avatar slot="start" class="team-logo">
               <img [src]="logo" [alt]="team.team_name" />
             </ion-avatar>
           </ng-container>
-          <ng-template #fallbackIcon>
-            <ion-icon
-              slot="start"
-              name="car-sport"
-              [style.color]="team.team_colour ? '#' + team.team_colour : undefined"
-            ></ion-icon>
-          </ng-template>
           <ion-label>
             <h2>{{ team.team_name }}</h2>
           </ion-label>
           <ion-note slot="end">
-            <div class="points-value">{{ team.points_current }} {{ t.points }}</div>
-            <div class="position-change" [class]="getChangeClass(team.position_current, team.position_start)">
-              {{ t.change }}: {{ getChangeValue(team.position_current, team.position_start) }}
+            <div class="points-row">
+              <div class="points-value">{{ team.points_current }}</div>
+              <div class="position-change" [class]="getChangeClass(team.position_current, team.position_start)">
+                <ion-icon [name]="getChangeIcon(team.position_current, team.position_start)"></ion-icon>
+                <span>{{ getChangeLabel(team.position_current, team.position_start) }}</span>
+              </div>
             </div>
+            <div class="points-label">{{ t.points }}</div>
           </ion-note>
         </ion-item>
       </ion-card-content>

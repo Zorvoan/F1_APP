@@ -5,6 +5,20 @@
       <span>{{ t.title(championshipYear) }}</span>
     </div>
     <div class="section-meta">
+
+      <ion-list>
+        <ion-item>
+          <ion-select placeholder="Select a Fruit">
+            <div slot="label">Rok</div>
+            <ion-select-option value="apple">Apple</ion-select-option>
+            <ion-select-option value="banana">Banana</ion-select-option>
+            <ion-select-option value="orange">Orange</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+
+
       <ion-item lines="none">
         <ion-label>{{ t.yearLabel }}</ion-label>
         <ion-select
@@ -52,10 +66,14 @@
             <p *ngIf="driver.team_name">{{ driver.team_name }}</p>
           </ion-label>
           <ion-note slot="end">
-            <div class="points-value">{{ driver.points_current }} {{ t.points }}</div>
-            <div class="position-change" [class]="getChangeClass(driver.position_current, driver.position_start)">
-              {{ t.change }}: {{ getChangeValue(driver.position_current, driver.position_start) }}
+            <div class="points-row">
+              <div class="points-value">{{ driver.points_current }}</div>
+              <div class="position-change" [class]="getChangeClass(driver.position_current, driver.position_start)">
+                <ion-icon [name]="getChangeIcon(driver.position_current, driver.position_start)"></ion-icon>
+                <span>{{ getChangeLabel(driver.position_current, driver.position_start) }}</span>
+              </div>
             </div>
+            <div class="points-label">{{ t.points }}</div>
           </ion-note>
         </ion-item>
       </ion-card-content>

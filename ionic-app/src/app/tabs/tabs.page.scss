@@ -61,11 +61,9 @@
 }
 
 .f1-tabs {
-  margin: 0 16px 0 16px;
-  border-radius: 12px;
   overflow: hidden;
-  --background: #0f1115;
-  --border: #1f2937;
+  --background: #1e1e1e;
+  --border: #1e1e1e;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -142,7 +140,7 @@ ion-tabs {
   }
 
   .f1-tabs {
-    margin: 0 12px 0 12px;
+    margin: 0;
   }
 
   .footer-content {
