@@ -46,12 +46,6 @@
   font-size: 0.95rem;
 }
 
-.section-meta ion-select::part(container) {
-  background: var(--ion-item-background);
-  border: 1px solid var(--ion-border-color);
-  border-radius: 8px;
-}
-
 .section-meta ion-select::part(text) {
   color: var(--ion-text-color);
   font-weight: 400;

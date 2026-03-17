@@ -71,26 +71,6 @@ export class OpenF1Service {
     });
   }
 
-  async getLatestSession(): Promise<Session | null> {
-    try {
-      const sessions = await this.fetchWithRateLimit<Session[]>(`${BASE_URL}/sessions?session_key=latest`);
-      return sessions[0] || null;
-    } catch (error) {
-      console.error('Error fetching latest session:', error);
-      return null;
-    }
-  }
-
-  async getLatestMeeting(): Promise<Meeting | null> {
-    try {
-      const meetings = await this.fetchWithRateLimit<Meeting[]>(`${BASE_URL}/meetings?meeting_key=latest`);
-      return meetings[0] || null;
-    } catch (error) {
-      console.error('Error fetching latest meeting:', error);
-      return null;
-    }
-  }
-
   async getDrivers(sessionKey: string | number = 'latest'): Promise<Driver[]> {
     try {
       const drivers = await this.fetchWithRateLimit<Driver[]>(`${BASE_URL}/drivers?session_key=${sessionKey}`);
@@ -124,35 +104,23 @@ export class OpenF1Service {
     }
   }
 
-  async getCarData(
-    driverNumber: number,
-    sessionKey: string | number = 'latest',
-    limit = 100
-  ): Promise<CarData[]> {
-    try {
-      return await this.fetchWithRateLimit<CarData[]>(
-        `${BASE_URL}/car_data?session_key=${sessionKey}&driver_number=${driverNumber}&limit=${limit}`
-      );
-    } catch (error) {
-      console.error('Error fetching car data:', error);
-      return [];
-    }
-  }
-
-  async getPositions(sessionKey: string | number = 'latest'): Promise<Position[]> {
-    try {
-      return await this.fetchWithRateLimit<Position[]>(`${BASE_URL}/position?session_key=${sessionKey}`);
-    } catch (error) {
-      console.error('Error fetching positions:', error);
-      return [];
-    }
-  }
-
   async getSessions(year = new Date().getFullYear()): Promise<Session[]> {
     try {
       return await this.fetchWithRateLimit<Session[]>(`${BASE_URL}/sessions?year=${year}`);
     } catch (error) {
       console.error('Error fetching sessions:', error);
+      return [];
+    }
+  }
+
+  async getMeetings(year = new Date().getFullYear()): Promise<Meeting[]> {
+    try {
+      const meetings = await this.fetchWithRateLimit<Meeting[]>(`${BASE_URL}/meetings?year=${year}`);
+      return meetings
+        .slice()
+        .sort((a, b) => new Date(a.date_start).getTime() - new Date(b.date_start).getTime());
+    } catch (error) {
+      console.error('Error fetching meetings:', error);
       return [];
     }
   }

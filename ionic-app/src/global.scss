@@ -151,3 +151,7 @@ ion-content {
   color: #dcdcdc;
   font-size: 1.5rem;
 }
+
+ion-item::part(native) {
+  background: transparent;
+}

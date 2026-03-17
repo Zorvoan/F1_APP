@@ -61,7 +61,6 @@
   padding: 0;
 }
 
-
 .last-updated {
   font-size: 12px;
 }
@@ -69,6 +68,57 @@
 ion-content {
   --padding-top: 64px;
   --padding-bottom: var(--ion-safe-area-bottom);
+}
+
+ion-card {
+  margin: 12px 12px;
+  border-radius: 16px;
+  --background: var(--ion-card-background);
+  box-shadow: none;
+  border: 1px solid var(--ion-border-color);
+}
+
+ion-card-content {
+  padding: 10px 12px;
+}
+
+ion-item {
+  --background: transparent;
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+}
+
+.meeting-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meeting-title h2 {
+  margin: 0;
+}
+
+.country-code {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+}
+
+.date-note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.date-day {
+  font-weight: 600;
+  color: var(--ion-text-color);
+  font-size: 0.95rem;
+}
+
+.date-year {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
 }
 
 @media (max-width: 640px) {
@@ -80,60 +130,4 @@ ion-content {
     width: 100%;
     justify-content: space-between;
   }
-}
-
-.points-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  justify-content: flex-end;
-}
-
-.points-value {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--ion-text-color);
-}
-
-.points-label {
-  font-size: 0.75rem;
-  color: var(--ion-color-medium);
-}
-
-.position-change {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-}
-
-.position-change ion-icon {
-  font-size: 14px;
-}
-
-.change-up {
-  color: #22c55e;
-}
-
-.change-down {
-  color: #ef4444;
-}
-
-.change-neutral {
-  color: #94a3b8;
-}
-
-ion-note {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
-
-ion-card {
-  margin: 12px 12px;
-  border-radius: 16px;
-  --background: var(--ion-card-background);
-  box-shadow: none;
-  border: 1px solid var(--ion-border-color);
 }

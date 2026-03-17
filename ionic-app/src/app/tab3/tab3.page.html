@@ -1,0 +1,62 @@
+<ion-content [fullscreen]="true">
+  <div class="section-header">
+    <div class="section-title">
+      <span>{{ titleLabel(championshipYear) }}</span>
+    </div>
+    <div class="section-meta">
+      <ion-list>
+        <ion-item>
+          <ion-select
+            [value]="championshipYear"
+            (ionChange)="onYearChange($event.detail.value)"
+            interface="alert">
+            <div slot="label">{{ yearLabel }}</div>
+            <ion-select-option *ngFor="let year of yearOptions" [value]="year">
+              {{ year }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <span *ngIf="lastUpdated" class="last-updated">
+        {{ lastUpdatedLabel }}: {{ lastUpdated | date:'shortTime' }}
+      </span>
+    </div>
+  </div>
+
+  <ion-list *ngIf="loading && meetings.length === 0">
+    <ion-item>
+      <ion-label>{{ loadingLabel }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-card *ngIf="error">
+    <ion-card-content>
+      <ion-text color="danger">{{ errorLabel }}: {{ error }}</ion-text>
+      <div style="margin-top: 12px;">
+        <ion-button color="danger" (click)="fetchData()">{{ retryLabel }}</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="!loading && !error">
+    <ion-card *ngFor="let meeting of meetings; let index = index" class="card-hover">
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-badge slot="start" color="medium">{{ index + 1 }}</ion-badge>
+          <ion-label>
+            <div class="meeting-title">
+              <span class="country-code">{{ meeting.country_code || '??' }}</span>
+              <h2>{{ meeting.meeting_name }}</h2>
+            </div>
+            <p>{{ meeting.location }}</p>
+          </ion-label>
+          <ion-note slot="end" class="date-note">
+            <div class="date-day">{{ meeting.date_start | date:'dd.MM.' }}</div>
+            <div class="date-year">{{ meeting.date_start | date:'yyyy' }}</div>
+          </ion-note>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>
