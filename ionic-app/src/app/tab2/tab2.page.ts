@@ -11,7 +11,6 @@ type TeamWithColor = ChampionshipTeam & { team_colour?: string };
   standalone: false,
 })
 export class Tab2Page implements OnInit {
-  readonly language: 'cs' | 'en' = 'cs';
   teams: TeamWithColor[] = [];
   loading = true;
   error: string | null = null;
@@ -22,30 +21,17 @@ export class Tab2Page implements OnInit {
   readonly maxYear = 2025;
   readonly yearOptions = Array.from({ length: this.maxYear - this.minYear + 1 }, (_, index) => this.maxYear - index);
 
-  private readonly translations = {
-    cs: {
-      title: (year: number) => `Mistrovstvi konstrukteru ${year}`,
-      yearLabel: 'Rok',
-      points: 'Body',
-      change: 'Zmena',
-      loading: 'Nacitani dat...',
-      error: 'Chyba pri nacitani dat',
-      retry: 'Zkusit znovu',
-      lastUpdated: 'Posledni aktualizace',
-      noDataAnyYear: 'Pro vybrany rozsah roku nejsou dostupna zadna data'
-    },
-    en: {
-      title: (year: number) => `Constructors Championship ${year}`,
-      yearLabel: 'Year',
-      points: 'Points',
-      change: 'Change',
-      loading: 'Loading data...',
-      error: 'Error loading data',
-      retry: 'Retry',
-      lastUpdated: 'Last updated',
-      noDataAnyYear: 'No data available for the selected year range'
-    }
-  };
+  readonly yearLabel = 'Rok';
+  readonly pointsLabel = 'Body';
+  readonly loadingLabel = 'Nacitani dat...';
+  readonly errorLabel = 'Chyba pri nacitani dat';
+  readonly retryLabel = 'Zkusit znovu';
+  readonly lastUpdatedLabel = 'Posledni aktualizace';
+  readonly noDataAnyYearLabel = 'Pro vybrany rozsah roku nejsou dostupna zadna data';
+
+  title(year: number) {
+    return `Mistrovstvi konstrukteru ${year}`;
+  }
 
   private readonly teamLogoMap: Record<string, string> = {
     alpine: 'assets/teams/alpine-logo.png',
@@ -64,10 +50,6 @@ export class Tab2Page implements OnInit {
 
   ngOnInit() {
     this.fetchData();
-  }
-
-  get t() {
-    return this.translations[this.language];
   }
 
   getTeamLogo(teamName?: string) {
@@ -107,7 +89,7 @@ export class Tab2Page implements OnInit {
 
       const { session, year } = await this.openF1.getLatestSessionForYearOrPrevious(this.championshipYear, this.minYear);
       if (!session || !year) {
-        throw new Error(this.t.noDataAnyYear);
+        throw new Error(this.noDataAnyYearLabel);
       }
 
       if (year !== this.championshipYear) {
@@ -125,13 +107,13 @@ export class Tab2Page implements OnInit {
       }
 
       if (data.length === 0) {
-        throw new Error(`No championship standings available for ${year}`);
+        throw new Error(`Pro rok ${year} nejsou dostupna zadna data o poradi`);
       }
 
       this.teams = data;
       this.lastUpdated = new Date();
     } catch (err) {
-      this.error = err instanceof Error ? err.message : 'Unknown error';
+      this.error = err instanceof Error ? err.message : 'Neznama chyba';
     } finally {
       this.loading = false;
     }

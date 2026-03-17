@@ -12,7 +12,6 @@ type DriverWithDisplayPosition = DriverWithInfo & { display_position: number };
   standalone: false,
 })
 export class Tab1Page implements OnInit {
-  readonly language: 'cs' | 'en' = 'cs';
   drivers: DriverWithDisplayPosition[] = [];
   loading = true;
   error: string | null = null;
@@ -23,41 +22,23 @@ export class Tab1Page implements OnInit {
   readonly maxYear = 2025;
   readonly yearOptions = Array.from({ length: this.maxYear - this.minYear + 1 }, (_, index) => this.maxYear - index);
 
-  private readonly translations = {
-    cs: {
-      title: (year: number) => `Mistrovstvi jezdcu ${year}`,
-      yearLabel: 'Rok',
-      points: 'Body',
-      change: 'Zmena',
-      loading: 'Nacitani dat...',
-      error: 'Chyba pri nacitani dat',
-      retry: 'Zkusit znovu',
-      lastUpdated: 'Posledni aktualizace',
-      noDataAnyYear: 'Pro vybrany rozsah roku nejsou dostupna zadna data',
-      unknownDriver: 'Jezdec'
-    },
-    en: {
-      title: (year: number) => `Drivers Championship ${year}`,
-      yearLabel: 'Year',
-      points: 'Points',
-      change: 'Change',
-      loading: 'Loading data...',
-      error: 'Error loading data',
-      retry: 'Retry',
-      lastUpdated: 'Last updated',
-      noDataAnyYear: 'No data available for the selected year range',
-      unknownDriver: 'Driver'
-    }
-  };
+  readonly yearLabel = 'Rok';
+  readonly pointsLabel = 'Body';
+  readonly loadingLabel = 'Nacitani dat...';
+  readonly errorLabel = 'Chyba pri nacitani dat';
+  readonly retryLabel = 'Zkusit znovu';
+  readonly lastUpdatedLabel = 'Posledni aktualizace';
+  readonly noDataAnyYearLabel = 'Pro vybrany rozsah roku nejsou dostupna zadna data';
+  readonly unknownDriverLabel = 'Jezdec';
+
+  title(year: number) {
+    return `Mistrovstvi jezdcu ${year}`;
+  }
 
   constructor(private readonly openF1: OpenF1Service) {}
 
   ngOnInit() {
     this.fetchData();
-  }
-
-  get t() {
-    return this.translations[this.language];
   }
 
   async onYearChange(value: number) {
@@ -73,7 +54,7 @@ export class Tab1Page implements OnInit {
 
       const { session, year } = await this.openF1.getLatestSessionForYearOrPrevious(this.championshipYear, this.minYear);
       if (!session || !year) {
-        throw new Error(this.t.noDataAnyYear);
+        throw new Error(this.noDataAnyYearLabel);
       }
 
       if (year !== this.championshipYear) {
@@ -91,7 +72,7 @@ export class Tab1Page implements OnInit {
       }
 
       if (data.length === 0) {
-        throw new Error(`No championship standings available for ${year}`);
+        throw new Error(`Pro rok ${year} nejsou dostupna zadna data o poradi`);
       }
 
       const sorted = data.slice().sort((a, b) => {
@@ -110,7 +91,7 @@ export class Tab1Page implements OnInit {
       }));
       this.lastUpdated = new Date();
     } catch (err) {
-      this.error = err instanceof Error ? err.message : 'Unknown error';
+      this.error = err instanceof Error ? err.message : 'Neznama chyba';
     } finally {
       this.loading = false;
     }
