@@ -119,26 +119,32 @@
 }
 
 ion-toolbar {
-  --background: rgba(255, 255, 255, 0.95);
+  --background: #ffffff;
   --backdrop-filter: blur(8px);
 }
 
-.dark ion-toolbar {
-  --background: rgba(15, 23, 42, 0.9);
+@media (prefers-color-scheme: dark) {
+  ion-toolbar {
+    --background: rgba(15, 23, 42, 0.9);
+  }
+
+  ion-tab-bar {
+    --background: rgba(15, 23, 42, 0.9);
+    --border: rgba(15, 23, 42, 0.9);
+  }
 }
 
 ion-tab-bar {
   --background: #ffffff;
-  --border: #e2e8f0;
+  --border: #ffffff;
 }
 
-.dark ion-tab-bar {
-  --background: #0b0d10;
-  --border: #1f2937;
+body {
+  background: var(--ion-background-color);
 }
 
-.dark ion-content {
-  --background: #000000;
+ion-content {
+  --background: var(--ion-background-color);
 }
 
 .github-header {

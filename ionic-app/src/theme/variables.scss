@@ -67,12 +67,14 @@
   --ion-border-color: #e2e8f0;
 }
 
-.dark {
-  --ion-background-color: #000000;
-  --ion-background-color-rgb: 0, 0, 0;
-  --ion-text-color: #f8fafc;
-  --ion-text-color-rgb: 248, 250, 252;
-  --ion-card-background: #0f1115;
-  --ion-item-background: #0f1115;
-  --ion-border-color: #1f2937;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #000000;
+    --ion-background-color-rgb: 0, 0, 0;
+    --ion-text-color: #f8fafc;
+    --ion-text-color-rgb: 248, 250, 252;
+    --ion-card-background: #0f1115;
+    --ion-item-background: #0f1115;
+    --ion-border-color: #1f2937;
+  }
 }
