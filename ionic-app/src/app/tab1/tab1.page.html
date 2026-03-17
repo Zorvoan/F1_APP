@@ -2,52 +2,40 @@
   <div class="section-header">
     <div class="section-title">
       <ion-icon name="trophy"></ion-icon>
-      <span>{{ t.title(championshipYear) }}</span>
+      <span>{{ title(championshipYear) }}</span>
     </div>
     <div class="section-meta">
-
       <ion-list>
         <ion-item>
-          <ion-select placeholder="Select a Fruit">
-            <div slot="label">Rok</div>
-            <ion-select-option value="apple">Apple</ion-select-option>
-            <ion-select-option value="banana">Banana</ion-select-option>
-            <ion-select-option value="orange">Orange</ion-select-option>
+          <ion-select
+            [value]="championshipYear"
+            (ionChange)="onYearChange($event.detail.value)"
+            interface="alert">
+            <div slot="label">{{ yearLabel }}</div>
+            <ion-select-option *ngFor="let year of yearOptions" [value]="year">
+              {{ year }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
 
-
-
-      <ion-item lines="none">
-        <ion-label>{{ t.yearLabel }}</ion-label>
-        <ion-select
-          [value]="championshipYear"
-          (ionChange)="onYearChange($event.detail.value)"
-          interface="popover"
-        >
-          <ion-select-option *ngFor="let year of yearOptions" [value]="year">
-            {{ year }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
       <span *ngIf="lastUpdated" class="last-updated">
-        {{ t.lastUpdated }}: {{ lastUpdated | date:'shortTime' }}
+        {{ lastUpdatedLabel }}: {{ lastUpdated | date:'shortTime' }}
       </span>
     </div>
   </div>
 
   <ion-list *ngIf="loading && drivers.length === 0">
     <ion-item>
-      <ion-label>{{ t.loading }}</ion-label>
+      <ion-label>{{ loadingLabel }}</ion-label>
     </ion-item>
   </ion-list>
 
   <ion-card *ngIf="error">
     <ion-card-content>
-      <ion-text color="danger">{{ t.error }}: {{ error }}</ion-text>
+      <ion-text color="danger">{{ errorLabel }}: {{ error }}</ion-text>
       <div style="margin-top: 12px;">
-        <ion-button color="danger" (click)="fetchData()">{{ t.retry }}</ion-button>
+        <ion-button color="danger" (click)="fetchData()">{{ retryLabel }}</ion-button>
       </div>
     </ion-card-content>
   </ion-card>
@@ -62,7 +50,7 @@
             <ion-icon *ngIf="!driver.headshot_url" name="person-circle"></ion-icon>
           </ion-avatar>
           <ion-label>
-            <h2>{{ driver.full_name || (t.unknownDriver + ' #' + driver.driver_number) }}</h2>
+            <h2>{{ driver.full_name || (unknownDriverLabel + ' #' + driver.driver_number) }}</h2>
             <p *ngIf="driver.team_name">{{ driver.team_name }}</p>
           </ion-label>
           <ion-note slot="end">
@@ -73,7 +61,7 @@
                 <span>{{ getChangeLabel(driver.position_current, driver.position_start) }}</span>
               </div>
             </div>
-            <div class="points-label">{{ t.points }}</div>
+            <div class="points-label">{{ pointsLabel }}</div>
           </ion-note>
         </ion-item>
       </ion-card-content>

@@ -38,7 +38,14 @@
 
 .section-meta ion-select {
   min-width: 90px;
+  font-size: 0.95rem;
+  background: transparent;
 }
+
+.section-meta ion-list {
+  background: transparent;
+}
+
 
 .last-updated {
   font-size: 12px;

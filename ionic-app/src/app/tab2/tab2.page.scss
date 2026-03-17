@@ -38,6 +38,11 @@
 
 .section-meta ion-select {
   min-width: 90px;
+  font-size: 0.95rem;
+}
+
+.section-meta ion-list {
+  background: transparent;
 }
 
 .last-updated {
@@ -117,7 +122,6 @@ ion-note {
   align-items: flex-start;
   gap: 4px;
 }
-
 
 
 
