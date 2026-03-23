@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { OpenF1Service } from '../services/openf1.service';
 import type { ChampionshipTeam } from '../models/f1';
 
@@ -46,7 +46,7 @@ export class Tab2Page implements OnInit {
     williams: 'assets/teams/williams-logo.png'
   };
 
-  constructor(private readonly openF1: OpenF1Service) {}
+  private readonly openF1 = inject(OpenF1Service);
 
   ngOnInit() {
     this.fetchData();

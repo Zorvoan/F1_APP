@@ -70,57 +70,63 @@
   box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
-.f1-gradient {
-  background: linear-gradient(135deg, #e10600 0%, #ff4d4d 100%);
-}
-
-.f1-gradient-dark {
-  background: linear-gradient(135deg, #8b0000 0%, #cc0000 100%);
-}
-
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-
-.live-indicator::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: #22c55e;
-  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    #e2e8f0 25%,
-    rgba(148, 163, 184, 0.2) 50%,
-    #e2e8f0 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
 ion-toolbar {
   --background: #ffffff;
   --backdrop-filter: blur(8px);
+}
+
+.app-header {
+  position: relative;
+}
+
+.app-header ion-toolbar {
+  --background: #090909;
+  --color: #f8fafc;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: #ef4444;
+}
+
+.header-icon ion-icon {
+  font-size: 28px;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-subtitle {
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.9);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -131,6 +137,12 @@ ion-toolbar {
   ion-tab-bar {
     --background: rgba(15, 23, 42, 0.9);
     --border: rgba(15, 23, 42, 0.9);
+  }
+}
+
+@media (max-width: 640px) {
+  .header-right {
+    display: none;
   }
 }
 
@@ -145,11 +157,6 @@ body {
 
 ion-content {
   --background: var(--ion-background-color);
-}
-
-.github-header {
-  color: #dcdcdc;
-  font-size: 1.5rem;
 }
 
 ion-item::part(native) {

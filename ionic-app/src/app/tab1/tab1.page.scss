@@ -61,25 +61,8 @@
   padding: 0;
 }
 
-
 .last-updated {
   font-size: 12px;
-}
-
-ion-content {
-  --padding-top: 64px;
-  --padding-bottom: var(--ion-safe-area-bottom);
-}
-
-@media (max-width: 640px) {
-  .section-title {
-    font-size: 18px;
-  }
-
-  .section-meta {
-    width: 100%;
-    justify-content: space-between;
-  }
 }
 
 .points-row {

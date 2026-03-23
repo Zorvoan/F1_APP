@@ -32,19 +32,6 @@ export interface ChampionshipTeam {
   team_name: string;
 }
 
-export interface CarData {
-  brake: number;
-  date: string;
-  driver_number: number;
-  drs: number;
-  gear: number;
-  meeting_key: number;
-  rpm: number;
-  session_key: number;
-  speed: number;
-  throttle: number;
-}
-
 export interface Session {
   circuit_key: number;
   circuit_short_name: string;
@@ -80,12 +67,4 @@ export interface Meeting {
   meeting_name: string;
   meeting_official_name: string;
   year: number;
-}
-
-export interface Position {
-  date: string;
-  driver_number: number;
-  meeting_key: number;
-  position: number;
-  session_key: number;
 }

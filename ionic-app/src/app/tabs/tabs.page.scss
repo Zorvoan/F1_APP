@@ -1,63 +1,3 @@
-// ...existing code...
-
-.app-header ion-toolbar {
-  --background: #090909;
-  --color: #f8fafc;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-icon {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  color: #ef4444;
-}
-
-.header-icon ion-icon {
-  font-size: 28px;
-}
-
-.header-title {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.header-subtitle {
-  font-size: 11px;
-  color: rgba(148, 163, 184, 0.9);
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: rgba(148, 163, 184, 0.9);
-}
-
-.live-indicator-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: #22c55e;
-  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
-}
-
 .f1-tabs {
   overflow: hidden;
   --background: #090909;
@@ -80,10 +20,6 @@ ion-tabs {
 }
 
 @media (max-width: 640px) {
-  .header-right {
-    display: none;
-  }
-
   ion-tabs {
     margin-top: 0;
   }

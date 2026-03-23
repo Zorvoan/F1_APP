@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import type {
-  CarData,
   ChampionshipDriver,
   ChampionshipTeam,
   Driver,
   Meeting,
-  Position,
   Session
 } from '../models/f1';
 

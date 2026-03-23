@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { OpenF1Service } from '../services/openf1.service';
 import type { ChampionshipDriver, Driver } from '../models/f1';
 
@@ -31,11 +31,11 @@ export class Tab1Page implements OnInit {
   readonly noDataAnyYearLabel = 'Pro vybrany rozsah roku nejsou dostupna zadna data';
   readonly unknownDriverLabel = 'Jezdec';
 
+  private readonly openF1 = inject(OpenF1Service);
+
   title(year: number) {
     return `Mistrovstvi jezdcu ${year}`;
   }
-
-  constructor(private readonly openF1: OpenF1Service) {}
 
   ngOnInit() {
     this.fetchData();
