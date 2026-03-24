@@ -13,39 +13,49 @@ const BASE_URL = 'https://api.openf1.org/v1';
   providedIn: 'root'
 })
 export class OpenF1Service {
+  // ale pro jistotu pridavam jednoduchou frontu pro pozadavky pri pripade, ze by to API nedavala pri vetsim mnozstvi pozadavku
   private lastRequestTime = 0;
   private readonly minRequestInterval = 500;
-  private requestQueue: Promise<void> = Promise.resolve();
+  private requestQueue: Promise<void> = Promise.resolve(); // fronta pro sekvencni zpracovani pozadavku
+  // chache uklada posledni session aby zbytecne nevolala api znovu, data zustavaji v cache 5 minut, pak se znovu zavola api pro aktualni data
   private readonly latestSessionCache = new Map<number, { session: Session | null; timestamp: number }>();
-  private readonly latestSessionCacheTtlMs = 5 * 60 * 1000;
+  private readonly latestSessionCacheTtlMs = 5 * 60 * 1000; //300 sekund = 5 minut
 
+  // delay najity na githubu pro podobne API
   private sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+
+  // upravuje URL obrazku jezdce
+  // API obcas vraci 2 URL v jednom stringu, takze vezme jen tu prvni, navic odstraní mezery navic
   private normalizeHeadshotUrl(url?: string): string {
     if (!url) return '';
-    const trimmed = url.trim();
-    const firstIndex = trimmed.indexOf('http');
-    if (firstIndex === -1) return trimmed;
-    const secondIndex = trimmed.indexOf('http', firstIndex + 4);
-    if (secondIndex === -1) return trimmed;
+    const trimmed = url.trim(); // odstraní mezery na zacatku a konci stringu
+    const firstIndex = trimmed.indexOf('http'); // najde index prvniho vyskytu 'http', ktery by mel znamenat zacatek URL
+    if (firstIndex === -1) return trimmed; // pokud nenajde zadnou URL, vrati puvodni string
+    const secondIndex = trimmed.indexOf('http', firstIndex + 4); // najde index druheho vyskytu 'http' za prvni URL
+    if (secondIndex === -1) return trimmed; // pokud najde jen jednu URL, vrati ji
     return trimmed.slice(0, secondIndex);
   }
 
+  //prida request do fronty
+  //zajisti ze se requesty vykonavaji postupne
   private scheduleRequest<T>(fn: () => Promise<T>): Promise<T> {
-    const run = this.requestQueue.then(fn, fn);
-    this.requestQueue = run.then(() => undefined, () => undefined);
+    const run = this.requestQueue.then(fn, fn); // zajisti, ze chyba v jednom requestu nezastavi dalsi requesty ve fronte
+    this.requestQueue = run.then(() => undefined, () => undefined); //resetuje frontu po vykonani requestu aby se nezacyklila v pripade chyby
     return run;
   }
 
+
+  // fetchuje data z API, pokud je chyba 429 nebo 503, pokusi se o retry, maximalne 3 pokusy, vraci json
   private async fetchWithRateLimit<T>(url: string, attempt = 0): Promise<T> {
     return this.scheduleRequest(async () => {
       const now = Date.now();
       const timeSinceLastRequest = now - this.lastRequestTime;
 
       if (timeSinceLastRequest < this.minRequestInterval) {
-        await this.sleep(this.minRequestInterval - timeSinceLastRequest);
+        await this.sleep(this.minRequestInterval - timeSinceLastRequest); // pokud je cas od posledniho requestu mensi nez minimalni interval, pocka zbytek casu
       }
 
       this.lastRequestTime = Date.now();
@@ -53,7 +63,7 @@ export class OpenF1Service {
       const response = await fetch(url);
 
       if (!response.ok) {
-        const shouldRetry = response.status === 429 || response.status === 503;
+        const shouldRetry = response.status === 429 || response.status === 503; // pokud je chyba 429 (Too Many Requests) nebo 503 (Service Unavailable), pokusi se o retry
         if (shouldRetry && attempt < 3) {
           const retryAfter = response.headers.get('Retry-After');
           const retryAfterMs = retryAfter ? Number(retryAfter) * 1000 : 0;
@@ -62,10 +72,10 @@ export class OpenF1Service {
           return this.fetchWithRateLimit<T>(url, attempt + 1);
         }
 
-        throw new Error(`API error: ${response.status} - ${response.statusText}`);
+        throw new Error(`API error: ${response.status} - ${response.statusText}`); // pokud uz nejde retry, nebo jsme dosahli maximalniho poctu pokusu, vyhodi chybu
       }
 
-      return response.json();
+      return response.json(); //vraci json data z API, pokud je request uspesny
     });
   }
 
@@ -82,6 +92,7 @@ export class OpenF1Service {
     }
   }
 
+  // fetchuje a seradi aktualni poradi jezdců v mistrovstvi podle session key, ktery muze byt 'latest' nebo konkretni session_key
   async getChampionshipDrivers(sessionKey: string | number = 'latest'): Promise<ChampionshipDriver[]> {
     try {
       const data = await this.fetchWithRateLimit<ChampionshipDriver[]>(`${BASE_URL}/championship_drivers?session_key=${sessionKey}`);
@@ -92,6 +103,7 @@ export class OpenF1Service {
     }
   }
 
+  // fetchuje a seradi aktualni poradi teamu v mistrovstvi podle session key, ktery muze byt 'latest' nebo konkretni session_key
   async getChampionshipTeams(sessionKey: string | number = 'latest'): Promise<ChampionshipTeam[]> {
     try {
       const data = await this.fetchWithRateLimit<ChampionshipTeam[]>(`${BASE_URL}/championship_teams?session_key=${sessionKey}`);
@@ -101,6 +113,7 @@ export class OpenF1Service {
       return [];
     }
   }
+
 
   async getSessions(year = new Date().getFullYear()): Promise<Session[]> {
     try {
@@ -159,7 +172,7 @@ export class OpenF1Service {
 
   async getLatestSessionForYearOrPrevious(
     year: number,
-    minYear = 2014
+    minYear = 2023
   ): Promise<{ session: Session | null; year: number | null }> {
     for (let currentYear = year; currentYear >= minYear; currentYear -= 1) {
       const session = await this.getLatestSessionForYear(currentYear);
